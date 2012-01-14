@@ -22,11 +22,11 @@ PRODUCT_PACKAGES += \
  liblgerft \
  brcm_patchram_plus \
  bdaddr_read \
- FM\
+ FM
 
 # Extra apps
 PRODUCT_PACKAGES += \
-	Launcher2  \
+	Launcher2  
 
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
@@ -191,6 +191,15 @@ PRODUCT_COPY_FILES += \
 	device/lge/swift/proprietary/bluetooth/BCM4325D1_004.002.004.0262.0270.hcd:system/bin/BCM4325D1_004.002.004.0262.0270.hcd \
 	device/lge/swift/proprietary/bluetooth/btld:system/bin/btld
 
+
+
+# Wifi
+PRODUCT_COPY_FILES += \
+	device/lge/swift/proprietary/wifi/rtecdc.bin:system/etc/wl/rtecdc.bin \
+	device/lge/swift/proprietary/wifi/rtecdc-apsta.bin:system/etc/wl/rtecdc-apsta.bin \
+	device/lge/swift/proprietary/wifi/nvram.txt:system/etc/wl/nvram.txt \
+	device/lge/swift/proprietary/wifi/rtecdc-mfgtest.bin:system/etc/wl/rtecdc-mfgtest.bin \
+	device/lge/swift/prebuilt/wifi/wireless.ko:system/lib/modules/wireless.ko 
 
 $(call inherit-product, build/target/product/full_base.mk)
 
