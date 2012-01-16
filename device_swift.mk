@@ -30,7 +30,7 @@ PRODUCT_PACKAGES += \
 
 
 ifeq ($(TARGET_PREBUILT_KERNEL),)
-    LOCAL_KERNEL := device/lge/swift/kernel
+    LOCAL_KERNEL := device/lge/swift/prebuilt/kernel
 else
     LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
 endif
@@ -56,14 +56,14 @@ PRODUCT_COPY_FILES += \
     device/lge/swift/ueventd.qct.rc:root/ueventd.qct.rc \
     device/lge/swift/init.qcom.rc:root/init.qcom.rc
 
-#compache kernel 
+#Kernel modules 
 PRODUCT_COPY_FILES += \
-  device/lge/swift/prebuilt/compcache/zram.ko:system/lib/modules/zram.ko 
-
+   device/lge/swift/prebuilt/compcache/zram.ko:system/lib/modules/zram.ko \
+   device/lge/swift/prebuilt/wifi/wireless.ko:system/lib/modules/wireless.ko 
 
 ## RIL related stuff
 PRODUCT_COPY_FILES += \
-   device/lge/swift/spn-conf.xml:system/etc/spn-conf.xml \
+   device/lge/swift/files/spn-conf.xml:system/etc/spn-conf.xml \
    device/lge/swift/proprietary/bin/qmuxd:system/bin/qmuxd \
    device/lge/swift/proprietary/lib/liboncrpc.so:system/lib/liboncrpc.so \
    device/lge/swift/proprietary/lib/libmmgsdilib.so:system/lib/libmmgsdilib.so \
@@ -88,11 +88,6 @@ PRODUCT_COPY_FILES += \
 
 ## LG RIL DRM Files have been replaced with source stud
 # 
-#
-# 
-# 
-# 
-#
 
 PRODUCT_COPY_FILES += \
 #   device/lge/swift/proprietary/lib/liblgdrm.so:system/lib/liblgdrm.so \
@@ -147,7 +142,7 @@ PRODUCT_COPY_FILES += \
     device/lge/swift/proprietary/lib/camera/libmmjpeg.so:system/lib/libmmjpeg.so \
     device/lge/swift/proprietary/lib/camera/libmmipl.so:system/lib/libmmipl.so
 
- 
+
 # Other libraries and proprietary binaries
 PRODUCT_COPY_FILES += \
   device/lge/swift/proprietary/bin/akmd2:system/bin/akmd2 \
@@ -163,7 +158,6 @@ PRODUCT_COPY_FILES += \
 
 #Adreno proprietary
 PRODUCT_COPY_FILES += \
-    device/lge/swift/proprietary/lib/egl/egl.cfg:system/lib/egl/egl.cfg \
     device/lge/swift/proprietary/lib/egl/libGLESv1_CM_adreno200.so:system/lib/egl/libGLESv1_CM_adreno200.so \
     device/lge/swift/proprietary/lib/egl/libq3dtools_adreno200.so:system/lib/egl/libq3dtools_adreno200.so \
     device/lge/swift/proprietary/lib/egl/libEGL_adreno200.so:system/lib/egl/libEGL_adreno200.so \
@@ -172,11 +166,12 @@ PRODUCT_COPY_FILES += \
     device/lge/swift/proprietary/etc/firmware/yamato_pm4.fw:system/etc/firmware/yamato_pm4.fw \
     device/lge/swift/proprietary/lib/libgsl.so:system/lib/libgsl.so
 
+# Some files
 PRODUCT_COPY_FILES += \
-   device/lge/swift/media_profiles.xml:system/etc/media_profiles.xml \
-    device/lge/swift/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \
-    device/lge/swift/vold.fstab:system/etc/vold.fstab \
-    device/lge/swift/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf 
+   device/lge/swift/files/media_profiles.xml:system/etc/media_profiles.xml \
+   device/lge/swift/files/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \
+   device/lge/swift/files/vold.fstab:system/etc/vold.fstab \
+   device/lge/swift/files/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf 
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
@@ -191,13 +186,13 @@ PRODUCT_COPY_FILES += \
 
 
 
-# Wifi
+# Wifi 
 PRODUCT_COPY_FILES += \
 	device/lge/swift/proprietary/wifi/rtecdc.bin:system/etc/wl/rtecdc.bin \
 	device/lge/swift/proprietary/wifi/rtecdc-apsta.bin:system/etc/wl/rtecdc-apsta.bin \
 	device/lge/swift/proprietary/wifi/nvram.txt:system/etc/wl/nvram.txt \
-	device/lge/swift/proprietary/wifi/rtecdc-mfgtest.bin:system/etc/wl/rtecdc-mfgtest.bin \
-	device/lge/swift/prebuilt/wifi/wireless.ko:system/lib/modules/wireless.ko 
+	device/lge/swift/proprietary/wifi/rtecdc-mfgtest.bin:system/etc/wl/rtecdc-mfgtest.bin 
+
 
 $(call inherit-product, build/target/product/full_base.mk)
 

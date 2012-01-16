@@ -14,6 +14,8 @@ TARGET_CPU_ABI := armeabi
 TARGET_BOOTLOADER_BOARD_NAME := swift
 ### enable 3d
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno200
+BOARD_EGL_CFG := device/lge/swift/files/egl.cfg
+
 
 TARGET_OTA_ASSERT_DEVICE := swift
 
