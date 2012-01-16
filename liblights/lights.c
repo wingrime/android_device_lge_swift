@@ -209,30 +209,97 @@ rgb_to_brightness(struct light_state_t const* state)
             + (150*((color>>8)&0x00ff)) + (29*(color&0x00ff))) >> 8;
 }
 
+/*
+do mapping 
+driver mapping  
+0-32
+ui mapping 
+0-255
+*/
+int map_backlight(int bg)
+{
+  int ret;
+  if (bg < 3)
+    ret = 0;
+  else if (bg < 7 )
+    ret = 1;
+  else if (bg < 14)
+    ret = 2;
+  else if (bg < 21)
+    ret = 3;
+  else if (bg < 28)
+    ret = 4;
+  else if (bg < 35)
+    ret = 5;
+  else if (bg < 42)
+    ret = 6;
+  else if (bg < 49)
+    ret = 7;
+  else if (bg < 56)
+    ret = 8; 
+  else if (bg < 63)
+    ret = 9;
+  else if (bg < 70)
+    ret = 10;
+  else if (bg < 77)
+    ret = 11;
+  else if (bg < 84)
+    ret = 12;
+  else if (bg < 91)
+    ret = 13;
+  else if (bg < 98)
+    ret = 14;
+  else if (bg < 105)
+    ret = 15; 
+  else if (bg < 112)
+    ret = 16;
+    else if (bg < 119)
+    ret = 17;
+  else if (bg < 126)
+    ret = 18;
+  else if (bg < 133)
+    ret = 19;
+  else if (bg < 140)
+    ret = 20;
+  else if (bg < 147)
+    ret = 21;
+  else if (bg < 154)
+    ret = 22; 
+  else if (bg < 161)
+    ret = 23;
+  else if (bg < 175)
+    ret = 24;
+  else if (bg < 182)
+    ret = 25;
+  else if (bg < 189)
+    ret = 26;
+  else if (bg < 196)
+    ret = 27;
+  else if (bg < 203)
+    ret = 28;
+  else if (bg < 210)
+    ret = 29;
+   else if (bg < 217)
+    ret = 30;
+  else if (bg < 224)
+    ret = 31;
+  else if (bg < 231)
+    ret = 32;
+
+  return ret;
+}
+
+
 static int
 set_light_backlight(struct light_device_t* dev,
         struct light_state_t const* state)
 {
     int err = 0;
     int brightness = rgb_to_brightness(state);
-
-    if (brightness == 0)
-      brightness  = 0;
-      else if (brightness  < 32)
-	brightness = 32;
-    
-
-if (brightness == 255 ) 
-      brightness = 16;
-    else
-      brightness = brightness / 16  ;
-
     pthread_mutex_lock(&g_lock);
     g_backlight = brightness;
-    err = write_int(LCD_FILE, (brightness/2));
-    if (g_haveTrackballLight) {
-        handle_trackball_light_locked(dev);
-    }
+    err = write_int(LCD_FILE, map_backlight(brightness));
+
     pthread_mutex_unlock(&g_lock);
     return err;
 }
