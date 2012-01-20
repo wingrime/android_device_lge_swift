@@ -52,6 +52,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:/system/etc/permissions/android.software.live_wallpaper.xml
 
+
+
+PRODUCT_COPY_FILES += \
+	device/lge/swift/files/07swapon:system/etc/init.d/07swapon
+
 # Board-specific init
 PRODUCT_COPY_FILES += \
     device/lge/swift/ueventd.qct.rc:root/ueventd.qct.rc \
