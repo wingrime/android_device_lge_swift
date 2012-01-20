@@ -47,8 +47,8 @@ wifi.supplicant_scan_interval=120
 
 ## opengles 2.0
 ro.opengles.version=131072
-debug.sf.hw=1
-video.accelerate.hw=1
+#debug.sf.hw=1
+#video.accelerate.hw=1
 dalvik.vm.dexopt-flags=v=n,o=v
 ###dalvik.vm.dexopt-flags=m=y
 dalvik.vm.verify-bytecode=false
