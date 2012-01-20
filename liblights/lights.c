@@ -20,7 +20,7 @@
 #define LOG_TAG "lights"
 
 #include <cutils/log.h>
-
+#include <cutils/properties.h>
 #include <stdint.h>
 #include <string.h>
 #include <unistd.h>
@@ -32,6 +32,8 @@
 #include <sys/types.h>
 
 #include <hardware/lights.h>
+
+
 
 /******************************************************************************/
 
@@ -48,6 +50,9 @@ static int g_attention = 0;
 static int g_wimax = 0;
 static int g_caps = 0;
 static int g_func = 0;
+
+static int in_screen_on = 0; 
+static int in_notify  = 0 ;
 
 char const*const TRACKBALL_FILE
         = "/sys/class/leds/jogball-backlight/brightness";
@@ -162,7 +167,7 @@ static int swift_kdb_blink_on(int on_delay,int off_delay)
 {
 
  LOGV(__func__);
- write_int(BUTTON_FILE,255);
+ // write_int(BUTTON_FILE,255);
  write_str(BUTTON_TRIGGER_FILE,"timer");
  write_int(BUTTON_DELAYON_FILE,on_delay);
  write_int(BUTTON_DELAYOFF_FILE,off_delay);
@@ -289,6 +294,16 @@ int map_backlight(int bg)
   return ret;
 }
 
+int is_kdb_backlight()
+{
+     char prop[PROPERTY_VALUE_MAX];
+     property_get("persist.sys.keyboard_led", prop, "off");
+     
+     if (strcmp(prop,"on") == 0)
+       return 1;
+     else
+       return 0;
+}
 
 static int
 set_light_backlight(struct light_device_t* dev,
@@ -296,10 +311,33 @@ set_light_backlight(struct light_device_t* dev,
 {
     int err = 0;
     int brightness = rgb_to_brightness(state);
+    int kdb_cfg_state = is_kdb_backlight(); 
     pthread_mutex_lock(&g_lock);
     g_backlight = brightness;
     err = write_int(LCD_FILE, map_backlight(brightness));
-
+    if (brightness < 3)
+    in_screen_on  = 1; 
+      else	
+    in_screen_on = 0 ;
+    
+    if (kdb_cfg_state == 1)
+      {
+	if (in_screen_on == 1)
+	  {
+	    //off
+	    swift_kdb_light_off();
+	  }
+	else
+	  {
+	    //on
+	    swift_kdb_light_on();
+	  }
+      }
+      else
+	swift_kdb_light_off();
+     //handle change of settings
+    
+      
     pthread_mutex_unlock(&g_lock);
     return err;
 }
@@ -363,10 +401,12 @@ static int  set_front_light_locked(struct light_device_t* dev,
 
     if (red || green)
       {
+	in_notify  = 1;
 	swift_kdb_light_on();
       }
     else
       {
+	in_notify = 0;
 	swift_kdb_light_off();
       }
 

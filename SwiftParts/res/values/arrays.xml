@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="charge_led_mode_entries">
+        <item>@string/charge_led_mode_on</item>
+        <item>@string/charge_led_mode_off</item>
+    </string-array>
+
+    <string-array name="charge_led_mode_values">
+        <item>on</item>
+        <item>off</item>
+    </string-array>
+
+
+
+</resources>

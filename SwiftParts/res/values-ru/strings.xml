@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Настройки Swift</string>
+
+    <string name="general_settings_title">Основные настройки</string>
+
+    <string name="charge_led_mode_title">Подсветка клавиатуры</string>
+    <string name="charge_led_mode_summary">Задать режим подсветки клавиатуры во время работы</string>
+    <string name="charge_led_mode_on">Включено</string>
+    <string name="charge_led_mode_off">Отключить</string>
+
+    <string name="audio_settings_title">Настройки звука</string>
+    <string name="audio_effects">Аудио-эффекты</string>
+
+
+
+</resources>

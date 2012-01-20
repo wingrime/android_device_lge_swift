@@ -22,7 +22,8 @@ PRODUCT_PACKAGES += \
  liblgerft \
  brcm_patchram_plus \
  bdaddr_read \
- FM
+ FM \
+ SwiftParts
 
 # Extra apps
 PRODUCT_PACKAGES += \
