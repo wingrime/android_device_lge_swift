@@ -13,6 +13,11 @@
     <string name="audio_settings_title">Настройки звука</string>
     <string name="audio_effects">Аудио-эффекты</string>
 
+  <string name="spare_parts">Дополнительные настройки</string>
+  <string name="oser_settings_title">Дополнительные настройки</string>
+  <string name="development_title">Разработка</string>
+  <string name="development">Дополнения разработчика</string>
+  <string name="terminal">Терминал</string>
 
 
 </resources>

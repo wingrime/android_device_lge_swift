@@ -26,5 +26,36 @@
         </PreferenceScreen>
 
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/oser_settings_title">
+
+        <PreferenceScreen android:key="spare_parts"
+                          android:title="@string/spare_parts">
+                          <intent
+                             android:action="android.intent.action.MAIN"
+                             android:targetPackage="com.android.spare_parts"
+                             android:targetClass="com.android.spare_parts.SpareParts" />
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/development_title">
+
+        <PreferenceScreen android:key="development"
+                          android:title="@string/development">
+                          <intent
+                             android:action="android.intent.action.MAIN"
+                             android:targetPackage="com.android.development"
+                             android:targetClass="com.android.development.Development" />
+        </PreferenceScreen>
+
+        <PreferenceScreen android:key="andoroid_terminal"
+                          android:title="@string/terminal">
+                          <intent
+                             android:action="android.intent.action.MAIN"
+                             android:targetPackage="jackpal.androidterm2"
+                             android:targetClass="jackpal.androidterm2.Term" />
+        </PreferenceScreen>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

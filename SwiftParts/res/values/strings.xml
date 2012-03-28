@@ -13,4 +13,10 @@
     <string name="audio_settings_title">Audio Settings</string>
     <string name="audio_effects">Audio Effects and DSP</string>
 
+
+  <string name="spare_parts">SpareParts</string>
+  <string name="oser_settings_title">Spare Parts</string>
+  <string name="development_title">Development</string>
+  <string name="development">Dev Tools</string>
+  <string name="terminal">Terminal</string>
 </resources>
