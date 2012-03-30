@@ -13,4 +13,10 @@
     <string name="audio_settings_title">Ustawienia dźwięku</string>
     <string name="audio_effects">Efekty audio i DSP</string>
 
+  <string name="spare_parts">Spare Parts</string>
+  <string name="oser_settings_title">Spare Parts</string>
+  <string name="development_title">Opcje programistyczne</string>
+  <string name="development">Narzędzia programistyczne</string>
+  <string name="terminal">Emulator terminala</string>
+  
 </resources>
