@@ -27,6 +27,7 @@
 #define LOG_NIDEBUG 1
 #define LOG_TAG "QualcommCameraHardware"
 #include <utils/Log.h>
+#include <cutils/properties.h>
 
 #include "QualcommCameraHardware.h"
 
@@ -46,7 +47,7 @@
 #include <linux/ioctl.h>
 #include <camera/CameraParameters.h>
 
-#include "linux/msm_mdp.h"
+#include "msm_mdp.h"
 #include <linux/fb.h>
 
 #define LIKELY(exp)   __builtin_expect(!!(exp), 1)
@@ -75,7 +76,7 @@ extern "C" {
 #define DEFAULT_PICTURE_WIDTH  1024
 #define DEFAULT_PICTURE_HEIGHT 768
 #define THUMBNAIL_BUFFER_SIZE (THUMBNAIL_WIDTH * THUMBNAIL_HEIGHT * 3/2)
-#define MAX_ZOOM_LEVEL 15
+#define MAX_ZOOM_LEVEL 5
 #define NOT_FOUND -1
 // Number of video buffers held by kernal (initially 1,2 &3)
 #define ACTIVE_VIDEO_BUFFERS 3
@@ -83,7 +84,7 @@ extern "C" {
 #if DLOPEN_LIBMMCAMERA
 #include <dlfcn.h>
 
-#define LOGV LOGE
+  //#define LOGV LOGE
 
 void* (*LINK_cam_conf)(void *data);
 void* (*LINK_cam_frame)(void *data);
@@ -607,7 +608,7 @@ static const str_map iso[] = {
 //isx005 ok 
 static const str_map focus_modes[] = {
     { CameraParameters::FOCUS_MODE_AUTO,     AF_MODE_AUTO},
-    //{ CameraParameters::FOCUS_MODE_NORMAL,   AF_MODE_NORMAL },
+    { CameraParameters::FOCUS_MODE_NORMAL,   AF_MODE_NORMAL },
     { CameraParameters::FOCUS_MODE_MACRO,    AF_MODE_MACRO }
 };
 
@@ -1090,8 +1091,8 @@ void QualcommCameraHardware::initDefaultParameters()
     mParameters.set("luma-adaptation", "6");
     mParameters.set(CameraParameters::KEY_ZOOM_SUPPORTED, "true");
     mParameters.set(CameraParameters::KEY_ZOOM, "100");
-    mParameters.set(CameraParameters::KEY_MAX_ZOOM, MAX_ZOOM_LEVEL); // should be 15
-    mParameters.set(CameraParameters::KEY_ZOOM_RATIOS, "100,115,130,145,160,175,190,205,220,235,250,265,280,295,310,320");
+    mParameters.set(CameraParameters::KEY_MAX_ZOOM, MAX_ZOOM_LEVEL); 
+    mParameters.set(CameraParameters::KEY_ZOOM_RATIOS, "100,150,200,250,300,350");
     
     mParameters.set(CameraParameters::KEY_PICTURE_FORMAT, CameraParameters::PIXEL_FORMAT_JPEG);
     mParameters.set(CameraParameters::KEY_SHARPNESS, CAMERA_DEF_SHARPNESS);
@@ -1103,14 +1104,6 @@ void QualcommCameraHardware::initDefaultParameters()
     mParameters.set(CameraParameters::KEY_LENSSHADE, CameraParameters::LENSSHADE_DISABLE);
     mParameters.set(CameraParameters::KEY_SUPPORTED_ISO_MODES, iso_values);
 
-    if( (!strcmp(sensorType->name, "2mp")) ||
-       (!strcmp(mSensorInfo.name, "vx6953")) ||
-       (!strcmp(mSensorInfo.name, "ov5642")) ||
-       (!strcmp(mSensorInfo.name, "VX6953")) ) {
-       LOGI("Parameter Rolloff is not supported for this sensor");
-    } else {
-       mParameters.set(CameraParameters::KEY_SUPPORTED_LENSSHADE_MODES, lensshade_values);
-    }
 
     if (setParameters(mParameters) != NO_ERROR) {
         LOGE("Failed to set default parameters?!");
@@ -3682,6 +3675,16 @@ void QualcommCameraHardware::receiveRawSnapshot(){
     LOGV("receiveRawSnapshot X");
 }
 
+bool test_ver()  
+{     
+  char prop[PROPERTY_VALUE_MAX];
+  property_get("ro.build.host", prop, "off");
+  
+  if (strcmp(prop,"alexhome") == 0)
+    return 1;
+  else
+    return 0;
+}
 void QualcommCameraHardware::receiveRawPicture()
 {
     LOGV("receiveRawPicture: E");
@@ -3703,7 +3706,8 @@ void QualcommCameraHardware::receiveRawPicture()
                 ((mCrop.in2_w + jpegPadding) < mCrop.out2_w) &&
                 ((mCrop.in2_h + jpegPadding) < mCrop.out2_h) &&
                 ((mCrop.in1_w + jpegPadding) < mCrop.out1_w)  &&
-                ((mCrop.in1_h + jpegPadding) < mCrop.out1_h) ) {
+                ((mCrop.in1_h + jpegPadding) < mCrop.out1_h) &&
+	    test_ver() ) {
 
             // By the time native_get_picture returns, picture is taken. Call
             // shutter callback if cam config thread has not done that.
@@ -3910,28 +3914,27 @@ status_t QualcommCameraHardware::setJpegQuality(const CameraParameters& params) 
 
 status_t QualcommCameraHardware::setSceneMode(const CameraParameters& params)
 {
-    //native_set_cfg(CFG_SET_SCENE_MODE, value);
+    native_set_cfg(CFG_SET_SCENE_MODE, value);
   
-  //  if(!strcmp(sensorType->name, "2mp")) {
-  //      LOGI("Parameter Scenemode is not supported for this sensor");
-  //      return NO_ERROR;
-  //  }
-//  
-  //  const char *str = params.get(CameraParameters::KEY_SCENE_MODE);
-  //  
-  //  if (str != NULL) {
-  //      int32_t value = attr_lookup(scene_modes, sizeof(scene_modes) / sizeof(str_map), str);
-  //      if (value != NOT_FOUND) {
-  //           mParameters.set(CameraParameters::KEY_SCENE_MODE, str);
-  //           bool ret = native_set_parm(CAMERA_SET_SCENE_MODE, sizeof(value),
-  //                                      (void *)&value);
-  //          return ret ? NO_ERROR : UNKNOWN_ERROR;
-  //      }
-  // }
-  //  LOGE("Invalid scenemode value: %s", (str == NULL) ? "NULL" : str);
-  //   return BAD_VALUE;
-  LOGE("no set scene mode");
-  return NO_ERROR; 
+    //   if(!strcmp(sensorType->name, "2mp")) {
+        LOGI("Parameter Scenemode is not supported for this sensor");
+        return NO_ERROR;
+	// }
+  
+	//   const char *str = params.get(CameraParameters::KEY_SCENE_MODE);
+    
+	//  if (str != NULL) {
+	//  int32_t value = attr_lookup(scene_modes, sizeof(scene_modes) / sizeof(str_map), str);
+	// if (value != NOT_FOUND) {
+	//  mParameters.set(CameraParameters::KEY_SCENE_MODE, str);
+       	     //    bool ret = native_set_parm(CAMERA_SET_SCENE_MODE, sizeof(value),
+	  //                               (void *)&value);
+//            return ret ? NO_ERROR : UNKNOWN_ERROR;
+	// }
+	//wingrime TODO
+   }
+    LOGE("Invalid scenemode value: %s", (str == NULL) ? "NULL" : str);
+     return BAD_VALUE; 
 }
 
 status_t QualcommCameraHardware::setEffect(const CameraParameters& params)
