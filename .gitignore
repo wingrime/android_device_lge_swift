@@ -1,0 +1,12 @@
+*.o
+*.a
+*.lo
+*.la
+*.id0
+*.id1
+*.nam
+*.til
+!.gitignore
+
+*~
+\#*#
