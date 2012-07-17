@@ -224,71 +224,71 @@ ui mapping
 int map_backlight(int bg)
 {
   int ret;
-  if (bg < 3)
+  if (bg < 30)
     ret = 0;
-  else if (bg < 7 )
+  else if (bg < 35 )
     ret = 1;
-  else if (bg < 14)
+  else if (bg < 40)
     ret = 2;
-  else if (bg < 21)
+  else if (bg < 45)
     ret = 3;
-  else if (bg < 28)
+  else if (bg < 50)
     ret = 4;
-  else if (bg < 35)
+  else if (bg < 65)
     ret = 5;
-  else if (bg < 42)
-    ret = 6;
-  else if (bg < 49)
-    ret = 7;
-  else if (bg < 56)
-    ret = 8; 
-  else if (bg < 63)
-    ret = 9;
   else if (bg < 70)
+    ret = 6;
+  else if (bg < 60)
+    ret = 7;
+  else if (bg < 65)
+    ret = 8; 
+  else if (bg < 70)
+    ret = 9;
+  else if (bg < 75)
     ret = 10;
-  else if (bg < 77)
+  else if (bg < 80)
     ret = 11;
-  else if (bg < 84)
+  else if (bg < 85)
     ret = 12;
-  else if (bg < 91)
+  else if (bg < 90)
     ret = 13;
-  else if (bg < 98)
+  else if (bg < 95)
     ret = 14;
-  else if (bg < 105)
+  else if (bg < 100)
     ret = 15; 
-  else if (bg < 112)
+  else if (bg < 105)
     ret = 16;
-    else if (bg < 119)
+  else if (bg < 110)
     ret = 17;
-  else if (bg < 126)
+  else if (bg < 115)
     ret = 18;
-  else if (bg < 133)
+  else if (bg < 120)
     ret = 19;
-  else if (bg < 140)
+  else if (bg < 125)
     ret = 20;
-  else if (bg < 147)
+  else if (bg < 130)
     ret = 21;
-  else if (bg < 154)
+  else if (bg < 135)
     ret = 22; 
-  else if (bg < 161)
+  else if (bg < 140)
     ret = 23;
-  else if (bg < 175)
+  else if (bg < 145)
     ret = 24;
-  else if (bg < 182)
+  else if (bg < 150)
     ret = 25;
-  else if (bg < 189)
-    ret = 26;
-  else if (bg < 196)
-    ret = 27;
-  else if (bg < 203)
+  else if (bg < 155)
     ret = 28;
-  else if (bg < 210)
+  else if (bg < 160)
     ret = 29;
-   else if (bg < 217)
+  else if (bg < 165)
     ret = 30;
-  else if (bg < 224)
+  else if (bg < 170)
     ret = 31;
-  else if (bg < 231)
+   else if (bg < 175)
+    ret = 32;
+  else if (bg < 180)
+    ret = 32;
+  else if (bg < 185)
     ret = 32;
 
   return ret;
@@ -556,6 +556,6 @@ const struct hw_module_t HAL_MODULE_INFO_SYM = {
     .version_minor = 0,
     .id = LIGHTS_HARDWARE_MODULE_ID,
     .name = "Swift lights Module",
-    .author = "CyanogenMod Project",
+    .author = "OpenSwift Project, wingrime 2012(c)",
     .methods = &lights_module_methods,
 };
