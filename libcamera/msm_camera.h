@@ -39,11 +39,11 @@
 //#endif
 #include <linux/types.h>
 #include <linux/ioctl.h>
-//#ifdef MSM_CAMERA_GCC
-//#include <time.h>
-//#else
+#ifdef MSM_CAMERA_GCC
+#include <time.h>
+#else
 #include <linux/time.h>
-//#endif
+#endif
 
 #define MSM_CAM_IOCTL_MAGIC 'm'
 
@@ -205,7 +205,6 @@ struct msm_vfe_evt_msg {
 	unsigned short msg_id;
 	int af_mode_locked;
 	unsigned int len;	/* size in, number of bytes out */
-  //	uint32_t frame_id;
 
 	void *data;
 };
@@ -424,10 +423,6 @@ struct msm_frame {
 
 	void *cropinfo;
 	int croplen;
-  //	uint32_t error_code;
-  //	struct fd_roi_info roi_info;
-  //	uint32_t frame_id;
-  //	struct timespec ts;
 };
 
 #define MSM_CAMERA_ERR_MASK (0xFFFFFFFF & 1)
@@ -436,7 +431,6 @@ struct msm_stats_buf {
 	int type;
 	unsigned long buffer;
 	int fd;
-  //	uint32_t frame_id;
 };
 
 #define MSM_V4L2_VID_CAP_TYPE	0
@@ -499,6 +493,24 @@ struct msm_snapshot_pp_status {
 #define CFG_SEND_WB_INFO    28
 #define CFG_MAX 			29
 
+#if defined (CONFIG_ISX005) 
+#define CFG_START_AF_FOCUS	101
+#define CFG_CHECK_AF_DONE	102
+#define CFG_CHECK_AF_CANCEL	103
+#define CFG_AF_LOCKED		104
+#define CFG_AF_UNLOCKED		105
+
+#define CFG_SET_ISO			201
+#define CFG_SET_SCENE		202
+#define CFG_SET_ZOOM_SENSOR 203
+
+#define CFG_SET_FOCUS_RECT 204
+#define CFG_SET_CANCEL_FOCUS 205
+#define CFG_SET_PARM_AF_MODE 206
+#define CFG_GET_CURRENT_ISO 207
+#define CFG_GET_CHECK_SNAPSHOT 208
+#endif
+
 #define MOVE_NEAR	0
 #define MOVE_FAR	1
 
@@ -521,8 +533,15 @@ struct msm_snapshot_pp_status {
 #define CAMERA_EFFECT_WHITEBOARD	6
 #define CAMERA_EFFECT_BLACKBOARD	7
 #define CAMERA_EFFECT_AQUA		8
+//isx005 additional
+#if defined (CONFIG_ISX005) 
+#define CAMERA_EFFECT_NEGATIVE_SEPIA	9
+#define CAMERA_EFFECT_BLUE		10
+#define CAMERA_EFFECT_PASTEL		11
+#define CAMERA_EFFECT_MAX		12
+#else
 #define CAMERA_EFFECT_MAX		9
-
+#endif
 struct sensor_pict_fps {
 	uint16_t prevfps;
 	uint16_t pictfps;
@@ -552,11 +571,11 @@ struct wb_info_cfg {
 struct sensor_cfg_data {
 	int cfgtype;
 	int mode;
-	int rs;
+	int rs;	
         int width;
 	int height;
 	uint8_t max_steps;
-       
+
 	union {
 		int8_t effect;
 		uint8_t lens_shading;
@@ -571,11 +590,12 @@ struct sensor_cfg_data {
 		struct focus_cfg focus;
 		struct fps_cfg fps;
 		struct wb_info_cfg wb_info;
-	  	      int8_t wb;
-	            int8_t iso;
-                    int8_t scene_mode;
-                    int8_t ev;
-	  int8_t zoom;
+	       int8_t wb;
+               int8_t iso;
+               int8_t scene_mode;
+               int8_t ev;
+
+    int8_t zoom; 
 	} cfg;
 };
 
@@ -623,22 +643,4 @@ struct msm_camsensor_info {
 	uint8_t flash_enabled;
 	int8_t total_steps;
 };
-
-
-//swift add
-
-
-#define	CAMERA_SCENE_NORMAL 0
-#define	CAMERA_SCENE_PORTRAIT 1
-#define	CAMERA_SCENE_LANDSCAPE 2
-#define	CAMERA_SCENE_SPORT 3
-#define	CAMERA_SCENE_SUNSET 4
-#define	CAMERA_SCENE_NIGHT 5
-#define	CAMERA_SCENE_BACKLIGHT 6
-#define	CAMERA_SCENE_NIGHT_PORTRAIT 7
-#define	CAMERA_SCENE_BEACH 8
-#define	CAMERA_SCENE_PARTY 9
-#define	CAMERA_SCENE_MAX 10
-
-
 #endif /* __LINUX_MSM_CAMERA_H */
