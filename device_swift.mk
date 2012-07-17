@@ -23,6 +23,7 @@ PRODUCT_PACKAGES += \
  brcm_patchram_plus \
  bdaddr_read \
  FM \
+ lgapversion \
  SwiftParts
 
 # Extra apps
