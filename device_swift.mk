@@ -61,7 +61,7 @@ PRODUCT_COPY_FILES += \
 # Board-specific init
 PRODUCT_COPY_FILES += \
     device/lge/swift/ueventd.qct.rc:root/ueventd.qct.rc \
-    device/lge/swift/init.qcom.rc:root/init.qcom.rc
+    device/lge/swift/init.swift.rc:root/init.swift.rc
 
 #Kernel modules 
 PRODUCT_COPY_FILES += \
