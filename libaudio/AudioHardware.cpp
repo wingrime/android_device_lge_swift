@@ -1191,16 +1191,16 @@ status_t AudioHardware::setVoiceVolume(float v)
 
     int vol = 0;
     if (mCurSndDevice == SND_DEVICE_SPEAKER || mCurSndDevice == SND_DEVICE_SPEAKER_RING || mCurSndDevice == SND_DEVICE_HEADSET_STEREO) {
-        vol = lrint(v * 21);
+      vol = lrint(v * 30 );//21
     }  	 else if (mCurSndDevice == SND_DEVICE_HANDSET) {
-        vol = lrint(v * 5.46);
+      vol = lrint(v * 10);//5.46
 		} else if (mCurSndDevice == SND_DEVICE_HEADSET) {
-        vol = lrint(v * 11.06);
+      vol = lrint(v * 15);//11.06
 		} else if (mCurSndDevice == SND_DEVICE_FM_HEADSET || mCurSndDevice == SND_DEVICE_FM_SPEAKER) {
-        vol = lrint(v * 14.00);
+      vol = lrint(v * 20);//14
 		}
 	else {
-        vol = lrint(v * 7.0);
+        vol = lrint(v * 13.0); //7
     }
     //LOGI("setVoiceVolume(%f)\n", v);
     //LOGI("Setting in-call volume to %d (available range is 0 to 7)\n", vol);
@@ -1219,7 +1219,7 @@ status_t AudioHardware::setVoiceVolume(float v)
 status_t AudioHardware::setMasterVolume(float v)
 {
     Mutex::Autolock lock(mLock);
-    int vol = ceil(v * 5.0);
+    int vol = ceil(v * 25.0);//5
     LOGI("Set master volume to %d.\n", vol);
     set_volume_rpc(SND_DEVICE_FM_HEADSET, SND_METHOD_VOICE, lrint(vol * 2), m7xsnddriverfd);
     set_volume_rpc(SND_DEVICE_FM_SPEAKER, SND_METHOD_VOICE, lrint(vol * 2), m7xsnddriverfd);
